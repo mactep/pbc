@@ -1,0 +1,11 @@
+rg 2938 vix gig 089.99
+jj 8423 vix cgh 100.10
+g3 9283 vix bsb 135.22
+jj 1254 gig jfk 994.87
+jj 2983 cgh vix 101.15
+rg 2398 sdu mao 394.22
+g3 9722 vix cgh 087.00
+g3 1927 vix poa 225.50
+jj 7823 bsb vix 199.90
+rg 5236 gig vix 090.00
+
