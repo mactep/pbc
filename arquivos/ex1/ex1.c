@@ -28,14 +28,15 @@ int main(int argc, char const* argv[])
     printf("Erro ao abrir o arquivo de saida\n");
     return 1;
   }
-  fclose(saida);
   while (!feof(entrada)) {
     fscanf(entrada, "%s %d %f %f\n", nome, &idade, &peso, &altura);
-    printf("%s %d %.2f %.2f\n", nome, idade, peso, altura);
+    /*printf("%s %d %.2f %.2f\n", nome, idade, peso, altura);*/
     if (acima_do_peso(peso, altura)) {
+      printf("%s esta acima do peso\n", nome);
       fprintf(saida, "%s %d\n", nome, idade);
     }
   }
   fclose(entrada);
+  fclose(saida);
   return 0;
 }

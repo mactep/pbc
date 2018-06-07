@@ -1,13 +1,14 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 void imprime_vetor(int tam, int vet[tam]) {
   if (vet[0] <= vet[tam - 1]) {
-    printf("O vetor crescente e: ");
+    printf("vetor_crescente: ");
     for (int i = 0; i < tam; i++) {
       printf("%d ", vet[i]);
     }
   } else {
-    printf("O vetor decrescente e: ");
+    printf("vetor_decrescente: ");
     for (int i = 0; i < tam; i++) {
       printf("%d ", vet[i]);
     }
