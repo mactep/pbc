@@ -2,7 +2,6 @@
 
 int main(int argc, char const* argv[])
 {
-  char entradas[3][10] = {"bsi.txt", "comp.txt", "engmec.txt"};
 
   FILE *entrada, *aprovados, *reprovados;
   char nome[10];
@@ -18,6 +17,8 @@ int main(int argc, char const* argv[])
     printf("Erro ao abrir o arquivo dos reprovados\n");
     return 1;
   }
+
+  char entradas[3][11] = {"bsi.txt", "comp.txt", "engmec.txt"};
 
   for (int i = 0; i < 3; i++) {
     entrada = fopen(entradas[i], "r");
