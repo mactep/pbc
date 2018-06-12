@@ -9,12 +9,12 @@ COL	matriz/ex3.c	/^#define COL /;"	d	file:
 LIN	matriz/ex3.c	/^#define LIN /;"	d	file:
 acima_do_peso	arquivos/ex1/ex1.c	/^float acima_do_peso(float peso, float altura) {$/;"	f	typeref:typename:float
 algarismos	funções/ex3.c	/^int algarismos(long int n) {$/;"	f	typeref:typename:int
-cria_matriz_chave	trabalho/Trabalho.c	/^int **cria_matriz_chave() {$/;"	f	typeref:typename:int **
 cria_matriz_vazia	trabalho/Trabalho.c	/^int **cria_matriz_vazia(int tam) {$/;"	f	typeref:typename:int **
 fatorial	funções/ex2.c	/^int fatorial(int n) {$/;"	f	typeref:typename:int
-imprime_jogo	trabalho/Trabalho.c	/^void imprime_jogo(int tam, int matriz[tam][tam]) {$/;"	f	typeref:typename:void
+imprime_jogo	trabalho/Trabalho.c	/^void imprime_jogo(int tam, int **matriz) {$/;"	f	typeref:typename:void
 imprime_matriz	matriz/ex4.c	/^int imprime_matriz(int lin, int col, int matriz[lin][col]) {$/;"	f	typeref:typename:int
 imprime_vetor	lista/quest2.c	/^void imprime_vetor(int tam, int vet[tam]) {$/;"	f	typeref:typename:void
+le_matriz_chave	trabalho/Trabalho.c	/^int **le_matriz_chave(int *tam) {$/;"	f	typeref:typename:int **
 main	arquivos/ex1/ex1.c	/^int main(int argc, char const* argv[])$/;"	f	typeref:typename:int
 main	arquivos/ex2/ex2.c	/^int main(int argc, char const* argv[])$/;"	f	typeref:typename:int
 main	arquivos/ex5/ex5.c	/^int main(int argc, char const* argv[])$/;"	f	typeref:typename:int
@@ -33,8 +33,8 @@ main	ponteiro/ex1.c	/^int main(int argc, char const* argv[])$/;"	f	typeref:typen
 main	ponteiro/ex2.c	/^int main(int argc, char const* argv[])$/;"	f	typeref:typename:int
 main	ponteiro/ex3.c	/^int main(int argc, char const* argv[])$/;"	f	typeref:typename:int
 main	trabalho/Trabalho.c	/^int main(int argc, char const* argv[])$/;"	f	typeref:typename:int
-main	trabalho/trab.c	/^int main(int argc, char const* argv[])$/;"	f	typeref:typename:int
 pbc	README.md	/^# pbc$/;"	c
+pega_jogada	trabalho/Trabalho.c	/^void pega_jogada(int jogador, int tam, int **campo, int **chave) {$/;"	f	typeref:typename:void
 positivos	matriz/ex2.c	/^int positivos(int lin, int col, int matriz[lin][col]) {$/;"	f	typeref:typename:int
 primo	funções/ex1.c	/^int primo(int n) {$/;"	f	typeref:typename:int
 primo	funções/ex4.c	/^int primo(int n) {$/;"	f	typeref:typename:int
