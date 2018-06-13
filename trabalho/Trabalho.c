@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-int **le_matriz_chave(int *tam) {
+int **le_matriz_chave(int *tam, int *navios) {
   FILE *entrada;
 
   entrada = fopen("batalhaNaval.txt", "r");
@@ -19,6 +19,7 @@ int **le_matriz_chave(int *tam) {
   for (int i = 0; i < *tam; i++) {
     for (int j = 0; j < *tam; j++) {
       fscanf(entrada, "%d", &campo[i][j]);
+      navios += campo[i][j];
     }
   }
   return campo;
@@ -38,82 +39,130 @@ int **cria_matriz_vazia(int tam) {
 }
 
 void imprime_jogo(int tam, int **matriz) {
+  printf("   ");
+  for (int i = 0; i < tam; i++) {
+    printf("[%d]", i);
+  }
+  printf("\n");
   for (int i = 0; i < tam; i++) {
     if (i == tam/2) {
-      for (int k = 0; k < 2*tam; k++) {
+      for (int k = 0; k < 4*tam; k++) {
         printf("-");
       }
       printf("\n");
     }
+    printf("[%d]", i);
     for (int j = 0; j < tam; j++) {
-      printf("%d ", matriz[i][j]);
+      printf(" %d ", matriz[i][j]);
     }
     printf("\n");
   }
 }
 
-/*typedef struct {
+typedef struct {
   int x, y;
-} posicao;*/
+} posicao;
 
-void pega_jogada(int jogador, int tam, int **campo, int **chave) {
-  //posicao p;
-  int x = -1;
-  int y = -1;
-  while (x == -1 || y == -1) {
+posicao pega_jogada(int jogador, int tam, int **campo) {
+  posicao p;
+  p.x = -1;
+  p.y = -1;
+  while (p.x == -1 || p.y == -1) {
     printf("Informe um valor para X: ");
-    scanf("%d", &x);
+    scanf("%d", &p.x);
 
     printf("Informe um valor para Y: ");
-    scanf("%d", &y);
+    scanf("%d", &p.y);
 
-    if (x < 0 || y < 0 || x >= tam || y >= tam) {
+    if (p.x < 0 || p.y < 0 || p.x >= tam || p.y >= tam) {
       printf("Posicao fora do campo. Informe outra jogada\n");
-      x = -1;
-    } else if (jogador == 1 && y < tam/2) {
+      p.x = -1;
+    } else if (jogador == 0 && p.y < tam/2) {
       printf("Posicao no proprio campo. Informe outra jogada\n");
-      y = -1;
-    } else if (jogador == -1 && y >= tam/2) {
+      p.y = -1;
+    } else if (jogador == 1 && p.y >= tam/2) {
       printf("Posicao no proprio campo. Informe outra jogada\n");
-      y = -1;
-    } else if (campo[x][y] == 1) {
+      p.y = -1;
+    } else if (campo[p.x][p.y] == 1) {
       printf("Posicao ja descoberta. Informe outra jogada\n");
-      x = -1;
-      y = -1;
+      p.x = -1;
+      p.y = -1;
     } else {
       printf("So jogada top, Rogerinho!\n");
-      printf("Posicao informada: (%d, %d)\n", x, y);
+      printf("Posicao informada: (%d, %d)\n", p.x, p.y);
     }
   }
-  if (chave[x][y] == 1) {
-    printf("Acertou mais navio que Kamikaze em Pearl Harbor!\n");
-    campo[x][y] = 1;
-  } else {
-    printf("Errou feio, errou rude!\n");
-  }
-  /*return p;*/
+  return p;
 }
+
+typedef struct {
+  int torpedos;
+  char nome[10];
+  //navios que ele abateu do openente
+  int navios_abatidos;
+} jogador;
 
 int main(int argc, char const* argv[])
 {
   int tamanho;
-  //jogador_atual vai ser 1(primeiro) e -1(segundo)
-  int jogador_atual = 1;
-  int jogando = 1;
+  int navios = 0;
 
-  int **chave = le_matriz_chave(&tamanho);
-  printf("%d\n", tamanho);
+  int **chave = le_matriz_chave(&tamanho, &navios);
+
+  int jogador_atual = 0;
+  jogador jogadores[2] = {{
+    .torpedos = (tamanho * tamanho / 2) * 0.7,
+    .nome = "j1",
+    .navios_abatidos = 0
+  }, {
+    .torpedos = (tamanho * tamanho / 2) *0.7,
+    .nome = "j2",
+    .navios_abatidos = 0
+  }};
 
   int **campo = cria_matriz_vazia(tamanho);
-  imprime_jogo(tamanho, campo);
 
-  while (jogando) {
+  posicao pos;
+
+  //TODO: achar uma maneira eficiente de comutar entre 0 e 1
+  while (1) {
     system("clear");
-    printf("Jogando agora: jogador %d\n", jogador_atual);
+    printf("Jogando agora: %s\n", jogadores[jogador_atual].nome);
+    printf("Torpedos restantes: %d\n", jogadores[jogador_atual].torpedos);
+    printf("Navios abatidos: %d\n\n", jogadores[jogador_atual].navios_abatidos);
+
     imprime_jogo(tamanho, campo);
-    pega_jogada(jogador_atual, tamanho, campo, chave);
-    sleep(2);
-    jogador_atual *= -1;
+
+    pos = pega_jogada(jogador_atual, tamanho, campo);
+
+    jogadores[jogador_atual].torpedos -= 1;
+
+    if (jogadores[jogador_atual].torpedos == 0) {
+      printf("%s nao possui mais torpedos.\n", jogadores[jogador_atual].nome);
+      sleep(2);
+      break;
+    }
+
+    if (chave[pos.x][pos.y] == 1) {
+      campo[pos.x][pos.y] = 1;
+
+      printf("Voce acertou um navio. Informe outra coordenada.\n");
+
+      jogadores[jogador_atual].navios_abatidos += 1;
+      //TODO: mudar a forma como os navios sao contados. Colocar um numero
+      //igual de navios dos dois lados e pa
+      if (jogadores[jogador_atual].navios_abatidos == navios / 2) {
+        printf("%s destruiu todos os navios do inimigo.\n", jogadores[jogador_atual].nome);
+      }
+
+      sleep(2);
+      continue;
+    } else {
+      printf("Errou feio, errou rude!\n");
+      sleep(2);
+    }
+
+    jogador_atual = !jogador_atual;
   }
   return 0;
 }
