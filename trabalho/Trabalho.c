@@ -22,18 +22,23 @@ int **le_matriz_chave(int *tam, int *navios) {
       navios += campo[i][j];
     }
   }
+  fclose(entrada);
   return campo;
 }
 
 int **cria_matriz_vazia(int tam) {
-  int **m = (int **)malloc(tam * sizeof(int*));
+  /*int **m = (int **)malloc(tam * sizeof(int*));*/
+  /*for (int i = 0; i < tam; i++) {*/
+  /*  m[i] = (int *)malloc(tam * sizeof(int));*/
+  /*}*/
+  /*for (int i = 0; i < tam; i++) {*/
+  /*  for (int j = 0; j < tam; j++) {*/
+  /*    m[i][j] = 0;*/
+  /*  }*/
+  /*}*/
+  int **m = (int **)calloc(tam, sizeof(int*));
   for (int i = 0; i < tam; i++) {
-    m[i] = (int *)malloc(tam * sizeof(int));
-  }
-  for (int i = 0; i < tam; i++) {
-    for (int j = 0; j < tam; j++) {
-      m[i][j] = 0;
-    }
+    m[i] = (int *)calloc(tam, sizeof(int));
   }
   return m;
 }
@@ -83,12 +88,11 @@ posicao pega_jogada(int jogador, int tam, int **campo) {
     } else if (jogador == 1 && p.y >= tam/2) {
       printf("Posicao no proprio campo. Informe outra jogada\n");
       p.y = -1;
-    } else if (campo[p.x][p.y] == 1) {
+    } else if (campo[p.y][p.x] == 1) {
       printf("Posicao ja descoberta. Informe outra jogada\n");
       p.x = -1;
       p.y = -1;
     } else {
-      printf("So jogada top, Rogerinho!\n");
       printf("Posicao informada: (%d, %d)\n", p.x, p.y);
     }
   }
@@ -124,7 +128,6 @@ int main(int argc, char const* argv[])
 
   posicao pos;
 
-  //TODO: achar uma maneira eficiente de comutar entre 0 e 1
   while (1) {
     system("clear");
     printf("Jogando agora: %s\n", jogadores[jogador_atual].nome);
@@ -143,14 +146,12 @@ int main(int argc, char const* argv[])
       break;
     }
 
-    if (chave[pos.x][pos.y] == 1) {
-      campo[pos.x][pos.y] = 1;
+    if (chave[pos.y][pos.x] == 1) {
+      campo[pos.y][pos.x] = 1;
 
       printf("Voce acertou um navio. Informe outra coordenada.\n");
 
       jogadores[jogador_atual].navios_abatidos += 1;
-      //TODO: mudar a forma como os navios sao contados. Colocar um numero
-      //igual de navios dos dois lados e pa
       if (jogadores[jogador_atual].navios_abatidos == navios / 2) {
         printf("%s destruiu todos os navios do inimigo.\n", jogadores[jogador_atual].nome);
       }
