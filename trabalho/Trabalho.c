@@ -19,7 +19,7 @@ int **le_matriz_chave(int *tam, int *navios) {
   for (int i = 0; i < *tam; i++) {
     for (int j = 0; j < *tam; j++) {
       fscanf(entrada, "%d", &campo[i][j]);
-      navios += campo[i][j];
+      *navios += campo[i][j];
     }
   }
   fclose(entrada);
@@ -130,6 +130,7 @@ int main(int argc, char const* argv[])
 
   while (1) {
     system("clear");
+    printf("Navios: %d\n", navios);
     printf("Jogando agora: %s\n", jogadores[jogador_atual].nome);
     printf("Torpedos restantes: %d\n", jogadores[jogador_atual].torpedos);
     printf("Navios abatidos: %d\n\n", jogadores[jogador_atual].navios_abatidos);
