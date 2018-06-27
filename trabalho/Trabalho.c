@@ -27,15 +27,6 @@ int **le_matriz_chave(int *tam, int *navios) {
 }
 
 int **cria_matriz_vazia(int tam) {
-  /*int **m = (int **)malloc(tam * sizeof(int*));*/
-  /*for (int i = 0; i < tam; i++) {*/
-  /*  m[i] = (int *)malloc(tam * sizeof(int));*/
-  /*}*/
-  /*for (int i = 0; i < tam; i++) {*/
-  /*  for (int j = 0; j < tam; j++) {*/
-  /*    m[i][j] = 0;*/
-  /*  }*/
-  /*}*/
   int **m = (int **)calloc(tam, sizeof(int*));
   for (int i = 0; i < tam; i++) {
     m[i] = (int *)calloc(tam, sizeof(int));
@@ -130,6 +121,7 @@ int main(int argc, char const* argv[])
 
   while (1) {
     system("clear");
+    printf(">>> BATALHA NAVAL <<<\n");
     printf("Navios: %d\n", navios);
     printf("Jogando agora: %s\n", jogadores[jogador_atual].nome);
     printf("Torpedos restantes: %d\n", jogadores[jogador_atual].torpedos);
@@ -141,25 +133,33 @@ int main(int argc, char const* argv[])
 
     jogadores[jogador_atual].torpedos -= 1;
 
-    if (jogadores[jogador_atual].torpedos == 0) {
-      printf("%s nao possui mais torpedos.\n", jogadores[jogador_atual].nome);
-      sleep(2);
-      break;
-    }
-
     if (chave[pos.y][pos.x] == 1) {
       campo[pos.y][pos.x] = 1;
 
-      printf("Voce acertou um navio. Informe outra coordenada.\n");
+      printf("Voce acertou um navio. ");
 
       jogadores[jogador_atual].navios_abatidos += 1;
+
       if (jogadores[jogador_atual].navios_abatidos == navios / 2) {
-        printf("%s destruiu todos os navios do inimigo.\n", jogadores[jogador_atual].nome);
+        printf("\n\n%s venceu: todos os navios inimigos foram abatidos.\n", jogadores[jogador_atual].nome);
+        sleep(2);
+        break;
+      } else if (jogadores[jogador_atual].torpedos == 0) {
+        printf("\n\n%s venceu: o oponente nao possui mais torpedos.\n", jogadores[!jogador_atual].nome);
+        sleep(2);
+        break;
+      } else {
+        printf("Informe outra coordenada.\n");
       }
 
       sleep(2);
       continue;
     } else {
+      if (jogadores[jogador_atual].torpedos == 0) {
+        printf("\n%s venceu: o oponente nao possui mais torpedos.\n", jogadores[!jogador_atual].nome);
+        sleep(2);
+        break;
+      }
       printf("Errou feio, errou rude!\n");
       sleep(2);
     }
